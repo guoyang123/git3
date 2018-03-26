@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+
+<mapper namespace="com.neuedu.entity.Product">
+
+  
+  
+   <insert id="addProduct"  parameterType="product" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+   insert into product(category_id,name,subtitle,main_image,sub_images,detail,price,stock,status,create_time, update_time)
+   values (#{category_id},#{name},#{subtitle},#{main_image},#{sub_images},#{detail},#{price},#{stock},#{status},now(),now())
+  </insert>
+  
+  <delete id="deleteProductById" parameterType="int">
+   delete from product where id=#{id}
+  </delete>
+
+
+	<update id="updateProduct" parameterType="product">
+	  update product set category_id=#{category_id},name=#{name},subtitle=#{subtitle},main_image=#{main_image},sub_images=#{sub_images}
+	  ,detail=#{detail},price=#{price},stock=#{stock},status=#{status},update_time=now() where id=#{id}
+	</update>
+  
+   <!--  分页查询
+   step1:查询总的记录数-->
+   <select id="findTotalCount" resultType="int">
+    select count(id) from product
+   </select>
+     <!--  获取某页数据-->
+   <select id="findProductByPage" resultType="product" parameterType="map" >
+   select id, category_id,name,subtitle,main_image,sub_images,detail,price,stock,status,create_time, update_time from product limit #{offSet},#{pageSize}
+   </select>
+   
+   
+     <select id="findProductById" parameterType="int" resultType="product">
+     select id, category_id,name,subtitle,main_image,sub_images,detail,price,stock,status,create_time, update_time from product where id=#{id}
+   </select>
+  
+<!--  
+ 检索商品 
+    按照category_id查询，否则查询所有
+-->
+ 
+  <select id="searchProduct" parameterType="map" resultType="product">
+   
+   select  id ,name from  product 
+   <where>
+     <if test="category_id>=0">
+       category_id=#{category_id}
+     </if>
+   </where>
+   
+  </select>
+
+  <!--   <select id="searchProduct" parameterType="int"  resultType="product">
+   
+   select  id ,name from  product 
+   <where>
+     <if test="#{id}>0">
+       category_id=#{id}
+     </if>
+   </where>
+   
+  </select> -->
+
+
+  <!-- 根据商品id查询商品库存 -->
+  <select id="getProductStock" parameterType="int" resultType="long">
+    select stock from product where id=#{productid}
+  </select>
+
+
+<!-- 减少商品库存 -->
+
+<update id="reduceProductStock" parameterType="map">
+
+  update product set stock=stock-#{quantity} where id=#{productid}
+
+</update>
+
+
+
+
+</mapper>

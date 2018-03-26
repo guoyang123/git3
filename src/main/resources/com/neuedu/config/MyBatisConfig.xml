@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+<!-- 加载jdbc.properties文件 -->
+<properties resource="jdbc.properties"/>
+
+<!-- 别名 -->
+<typeAliases>
+ <typeAlias type="com.neuedu.entity.User" alias="user"/>
+  <typeAlias type="com.neuedu.entity.Cate" alias="cate"/>
+   <typeAlias type="com.neuedu.entity.Product" alias="product"/>
+   <typeAlias type="com.neuedu.entity.Cart" alias="cart"/>
+   <typeAlias type="com.neuedu.entity.UserOrder" alias="order"/>
+   <typeAlias type="com.neuedu.entity.UserOrderItem" alias="orderItem"/>
+   
+   
+</typeAliases>
+
+
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC">
+      </transactionManager>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+	    <mapper resource="com/neuedu/config/userMapper.xml"/>	
+	    <mapper resource="com/neuedu/config/cateMapper.xml"/>	
+	    <mapper resource="com/neuedu/config/productMapper.xml"/>	
+	     <mapper resource="com/neuedu/config/cartMapper.xml"/>	
+	       <mapper resource="com/neuedu/config/orderMapper.xml"/>	
+	         <mapper resource="com/neuedu/config/orderItemMapper.xml"/>
+  </mappers>
+
+</configuration>
